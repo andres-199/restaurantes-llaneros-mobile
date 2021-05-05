@@ -10,7 +10,7 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () =>
-          import('../home/tab1.module').then((m) => m.Tab1PageModule),
+          import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
         path: 'cart',
