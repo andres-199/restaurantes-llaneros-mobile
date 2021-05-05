@@ -2,4 +2,12 @@
   <app-toolbar></app-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true">
+  <ion-card *ngFor="let restaurante of restaurantes">
+    <img [src]="restaurante.imagen.path" />
+    <ion-card-header>
+      <ion-card-title>{{restaurante.nombre}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content> {{restaurante.descripcion}} </ion-card-content>
+  </ion-card>
+</ion-content>
