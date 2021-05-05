@@ -1,0 +1,7 @@
+{
+  "name": "restaurantes-llaneros",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
