@@ -3,7 +3,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let restaurante of restaurantes">
+  <ion-card
+    *ngFor="let restaurante of restaurantes"
+    style="margin-bottom: 1em"
+    (click)="onClickRestaurante(restaurante)"
+  >
     <img [src]="restaurante.imagen.path" />
     <ion-card-header>
       <ion-card-title>{{restaurante.nombre}}</ion-card-title>

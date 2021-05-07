@@ -13,6 +13,13 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
+        path: 'purchases',
+        loadChildren: () =>
+          import('../purchases/purchases.module').then(
+            (r) => r.PurchasesPageModule
+          ),
+      },
+      {
         path: 'cart',
         loadChildren: () =>
           import('../cart/tab2.module').then((m) => m.Tab2PageModule),

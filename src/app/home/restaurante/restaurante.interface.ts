@@ -15,4 +15,5 @@ export interface Restaurante {
   Ordenes?: Carrito[];
   valorTotalOrdenes?: number;
   MetodosPago?: MetodoPago[];
+  Mesas: any[];
 }

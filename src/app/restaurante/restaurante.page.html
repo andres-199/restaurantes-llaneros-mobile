@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-modal-back-button></app-modal-back-button>
+    </ion-buttons>
+    <ion-title> {{restaurante.nombre}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img [src]="restaurante.imagen.path" />
+
+    <ion-item lines="none">
+      <ion-icon size="small" name="restaurant" slot="start"></ion-icon>
+      <ion-label color="medium">
+        {{ restaurante.Mesas?.length }} Mesas disponibles
+      </ion-label>
+      <ion-button slot="end">
+        <ion-icon name="time"></ion-icon>
+        Reservar
+      </ion-button>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-icon size="small" name="location" slot="start"></ion-icon>
+      <ion-label color="medium" class="ion-text-wrap">
+        {{restaurante.direccion}}
+      </ion-label>
+    </ion-item>
+
+    <ion-card-content> {{restaurante.descripcion}} </ion-card-content>
+  </ion-card>
+
+  <!--Productos-->
+  <div style="width: 100%" align="center">
+    <ion-spinner *ngIf="loading" color="primary"></ion-spinner>
+  </div>
+
+  <ion-card *ngFor="let categoria of restaurante.Categorias">
+    <ion-card-header>
+      <ion-card-title color="primary">{{categoria.nombre}} </ion-card-title>
+    </ion-card-header>
+
+    <ion-list>
+      <ion-item *ngFor="let producto of categoria.Productos" detail="true">
+        <ion-thumbnail slot="start">
+          <img [src]="producto.Imagenes[0].path" />
+        </ion-thumbnail>
+        <ion-label>
+          <h3>{{producto.nombre}}</h3>
+          <p>{{producto.precio | currency: 'COP':'symbol':'1.0'}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

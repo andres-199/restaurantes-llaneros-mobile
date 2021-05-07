@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { Tab1PageRoutingModule } from './home-routing.module';
 import { ToolbarModule } from '../components/toolbar/toolbar.module';
+import { RestaurantePageModule } from '../restaurante/restaurante.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ToolbarModule } from '../components/toolbar/toolbar.module';
     FormsModule,
     Tab1PageRoutingModule,
     ToolbarModule,
+    RestaurantePageModule,
   ],
   declarations: [HomePage],
 })
