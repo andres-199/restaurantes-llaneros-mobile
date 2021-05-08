@@ -1,0 +1,24 @@
+.login-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("../../assets/img/bg-login.jpg");
+  background-size: cover;
+}
+
+ion-card {
+  width: 75%;
+  text-align: center;
+
+  text-align: center;
+  box-shadow: 7px 7px 17px -10px #bcaaa4;
+}
+
+.header-image {
+  position: absolute;
+  width: 170px;
+  top: 180px;
+  left: 7px;
+  z-index: 10000;
+}

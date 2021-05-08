@@ -1,3 +1,16 @@
 <ion-toolbar color="primary">
   <ion-title> Restaurantes Llaneros </ion-title>
+  <ion-buttons slot="end">
+    <ion-button
+      (click)="onClickLogin()"
+      *ngIf="!userService.isLogedIn; else logout"
+    >
+      <ion-icon slot="icon-only" name="log-in"></ion-icon>
+    </ion-button>
+    <ng-template #logout>
+      <ion-button (click)="onClickLogout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ng-template>
+  </ion-buttons>
 </ion-toolbar>
