@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomeService } from './home.service';
 import { Restaurante } from './restaurante/restaurante.interface';
 import { map } from 'rxjs/operators';
@@ -10,14 +10,14 @@ import { RestaurantePage } from './restaurante/restaurante.page';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   restaurantes: Restaurante[];
   constructor(
     private homeService: HomeService,
     private modalController: ModalController
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.getRestaurantes();
   }
 
@@ -34,8 +34,6 @@ export class HomePage implements OnInit {
       )
       .subscribe({
         next: (restaurantes) => {
-          console.log(restaurantes);
-
           this.restaurantes = restaurantes;
         },
       });

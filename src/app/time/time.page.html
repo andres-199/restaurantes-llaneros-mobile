@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <app-toolbar></app-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="reservas?.length;else noData">
+    <ion-item-sliding *ngFor="let reserva of reservas">
+      <ion-item>
+        <ion-label class="ion-text-wrap">
+          <h2>{{reserva.Restaurant?.nombre}}</h2>
+          <p>{{reserva.Restaurant?.direccion}}</p>
+          <p>
+            {{reserva.fecha |date:'MMMM d, y, h:mm a'}}
+
+            <ion-note color="primary" style="float: right">
+              {{reserva.numero_mesas}}{{'
+              mesa'+(reserva.numero_mesas>1?'s':'')}}
+            </ion-note>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="onClickDelete(reserva)"
+          >Eliminar</ion-item-option
+        >
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+
+<ng-template #noData>
+  <div class="no-data">
+    <ion-text color="primary">
+      <h3>
+        No tienes reservas, empieza a reservar en tus restaurantes favoritos!
+      </h3>
+    </ion-text>
+  </div>
+</ng-template>

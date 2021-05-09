@@ -27,7 +27,7 @@ const routes: Routes = [
       {
         path: 'time',
         loadChildren: () =>
-          import('../time/tab3.module').then((m) => m.Tab3PageModule),
+          import('../time/time.module').then((m) => m.TimePageModule),
       },
       {
         path: '',

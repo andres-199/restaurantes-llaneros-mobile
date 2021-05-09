@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
+  LoadingController,
   ModalController,
   ToastController,
 } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Categoria } from 'src/app/interfaces/categoria.interface';
+import { Reserva } from 'src/app/time/reserva.interface';
 import { UserService } from 'src/app/login/user.service';
 import { setPath } from 'src/util/image-path';
 import { Restaurante } from './restaurante.interface';
@@ -24,7 +26,8 @@ export class RestaurantePage implements OnInit {
     private restauranteService: RestauranteService,
     private userService: UserService,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) {}
 
   ngOnInit() {
@@ -61,7 +64,6 @@ export class RestaurantePage implements OnInit {
             producto.Imagenes.forEach((imagen) => setPath(imagen))
           );
           this.restaurante = restaurante;
-          console.log(this.restaurante);
         },
         complete: () => {
           this.loading = false;
@@ -82,6 +84,10 @@ export class RestaurantePage implements OnInit {
       return false;
     }
 
+    this.showalert();
+  }
+
+  private async showalert() {
     const alert = await this.alertController.create({
       header: 'Reserva en ' + this.restaurante.nombre,
       inputs: [
@@ -107,13 +113,41 @@ export class RestaurantePage implements OnInit {
         },
         {
           text: 'Reservar',
-          handler: (data) => {
-            console.log('Confirm Ok', data);
+          handler: (reserva: Reserva) => {
+            this.createReserva(reserva);
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  private async createReserva(reserva: Reserva) {
+    const loading = await this.loadingController.create({
+      message: 'Espere un momento...',
+    });
+    await loading.present();
+
+    const user = this.userService.user;
+    reserva.tercero_id = user.tercero_id;
+    reserva.restaurante_id = this.restaurante.id;
+
+    this.restauranteService.createReserva(reserva).subscribe({
+      next: async (_reserva) => {
+        await loading.dismiss();
+
+        const message = `Se reservarón ${
+          _reserva.numero_mesas
+        } mesas para el ${_reserva.fecha.toLocaleString()}`;
+
+        const toast = await this.toastController.create({
+          message,
+          duration: 5000,
+          buttons: ['Aceptar'],
+        });
+        await toast.present();
+      },
+    });
   }
 }
