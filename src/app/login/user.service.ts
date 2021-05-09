@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Tercero } from '../interfaces/tercero.interface';
 import { Usuario } from '../interfaces/usuario.interface';
 
 @Injectable({
@@ -32,5 +33,10 @@ export class UserService {
   public logout() {
     localStorage.removeItem('user');
     this.router.navigate(['']);
+  }
+
+  public register(tercero: Tercero) {
+    const url = environment.BACKEND_URL + 'terceros';
+    return this.http.post(url, tercero);
   }
 }

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
   user: Usuario = {};
+  isLogin = true;
   constructor(
     private userService: UserService,
     private toastController: ToastController,

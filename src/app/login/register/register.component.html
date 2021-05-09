@@ -1,0 +1,85 @@
+<div class="login-container">
+  <ion-card color="secondary">
+    <ion-card-header style="margin-top: 2em">
+      <ion-card-title style="color: #6a4b3f">
+        Restaurantes Llaneros
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form #_form="ngForm">
+        <ion-item color="secondary">
+          <ion-label position="floating">Nombres</ion-label>
+          <ion-input
+            type="text"
+            name="nombre"
+            [(ngModel)]="tercero.nombre"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item color="secondary">
+          <ion-label position="floating">Apellidos</ion-label>
+          <ion-input
+            type="text"
+            name="apellido"
+            [(ngModel)]="tercero.apellido"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item color="secondary">
+          <ion-label position="floating">Correo</ion-label>
+          <ion-input
+            type="text"
+            name="email"
+            [(ngModel)]="tercero.email"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item color="secondary" lines="none">
+          <ion-text color="primary">
+            Crea una contraseña para tu cuenta
+          </ion-text>
+        </ion-item>
+
+        <ion-item color="secondary">
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input
+            type="password"
+            name="psw1"
+            [(ngModel)]="password.psw1"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item color="secondary">
+          <ion-label position="floating">Verifica tu contraseña</ion-label>
+          <ion-input
+            type="password"
+            name="psw2"
+            [(ngModel)]="password.psw2"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          style="margin: 2em 0 1em 0"
+          (click)="onClickRegistrar(_form)"
+        >
+          Registrar
+        </ion-button>
+        <ion-button
+          type="reset"
+          expand="block"
+          fill="clear"
+          (click)="onCancel.emit()"
+        >
+          Cancelar
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</div>

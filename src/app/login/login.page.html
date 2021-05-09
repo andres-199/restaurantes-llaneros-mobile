@@ -1,8 +1,7 @@
 <ion-header> </ion-header>
 
 <ion-content>
-  <div class="login-container">
-    <img src="assets/img/sombrero.png" class="header-image" />
+  <div class="login-container" *ngIf="isLogin;else register">
     <ion-card color="secondary">
       <ion-card-header style="margin-top: 2em">
         <ion-card-title style="color: #6a4b3f">
@@ -34,8 +33,17 @@
         >
           Iniciar Sesión
         </ion-button>
-        <ion-button expand="block" fill="clear"> Crear una cuenta </ion-button>
+        <ion-button expand="block" fill="clear" (click)="isLogin=false">
+          Crear una cuenta
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </div>
 </ion-content>
+
+<ng-template #register>
+  <app-register
+    (onCancel)="isLogin=true"
+    (onRegister)="user=$event; isLogin=true"
+  ></app-register>
+</ng-template>
