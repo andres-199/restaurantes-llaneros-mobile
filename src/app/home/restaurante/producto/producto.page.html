@@ -1,9 +1,44 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>producto</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-modal-back-button></app-modal-back-button>
+    </ion-buttons>
+    <ion-title> {{restaurante.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-slides pager="true">
+      <ion-slide
+        *ngFor="let imagen of producto.Imagenes;let i=index"
+        (click)="showFullScreenImage(i)"
+      >
+        <div class="img-container">
+          <img [src]="imagen.path" />
+        </div>
+      </ion-slide>
+    </ion-slides>
 
+    <ion-card-header>
+      <ion-fab vertical="center" horizontal="end">
+        <ion-fab-button (click)="onClickCart()">
+          <ion-icon name="cart"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <ion-card-subtitle>{{producto.Categoria?.nombre}}</ion-card-subtitle>
+      <ion-card-title>{{producto.nombre}}</ion-card-title>
+      <ion-text>{{producto.precio | currency: 'COP':'symbol':'1.0'}}</ion-text>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{producto.descripcion}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ng-image-fullscreen-view
+  [images]="producto.Imagenes"
+  [imageIndex]="selectedImageIndex"
+  [show]="showFullScreen"
+  (close)="closeEventHandler()"
+></ng-image-fullscreen-view>

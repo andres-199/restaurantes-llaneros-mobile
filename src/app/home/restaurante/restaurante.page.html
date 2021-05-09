@@ -13,8 +13,8 @@
 
     <ion-item lines="none">
       <ion-icon size="small" name="restaurant" slot="start"></ion-icon>
-      <ion-label color="medium">
-        {{ restaurante.Mesas?.length }} Mesas disponibles
+      <ion-label color="medium" class="ion-text-wrap">
+        <p>{{ restaurante.Mesas?.length }} Mesas disponibles</p>
       </ion-label>
       <ion-button slot="end" (click)="onClickReservar()">
         <ion-icon name="time"></ion-icon>
@@ -25,7 +25,7 @@
     <ion-item lines="none">
       <ion-icon size="small" name="location" slot="start"></ion-icon>
       <ion-label color="medium" class="ion-text-wrap">
-        {{restaurante.direccion}}
+        <p>{{restaurante.direccion}}</p>
       </ion-label>
     </ion-item>
 
@@ -43,15 +43,23 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let producto of categoria.Productos" detail="true">
-        <ion-thumbnail slot="start">
-          <img [src]="producto.Imagenes[0].path" />
-        </ion-thumbnail>
-        <ion-label>
-          <h3>{{producto.nombre}}</h3>
-          <p>{{producto.precio | currency: 'COP':'symbol':'1.0'}}</p>
-        </ion-label>
-      </ion-item>
+      <ion-item-sliding *ngFor="let producto of categoria.Productos">
+        <ion-item detail="true" (click)="onClickProducto(producto)">
+          <ion-thumbnail slot="start">
+            <img [src]="producto.Imagenes[0].path" />
+          </ion-thumbnail>
+          <ion-label>
+            <h3>{{producto.nombre}}</h3>
+            <p>{{producto.precio | currency: 'COP':'symbol':'1.0'}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="onClickCart(producto)">
+            <ion-icon name="cart" size="large"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </ion-list>
   </ion-card>
 </ion-content>

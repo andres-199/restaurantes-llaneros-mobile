@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AlertController,
   LoadingController,
@@ -12,6 +12,9 @@ import { UserService } from 'src/app/login/user.service';
 import { setPath } from 'src/util/image-path';
 import { Restaurante } from './restaurante.interface';
 import { RestauranteService } from './restaurante.service';
+import { Producto } from './producto/producto.interfcae';
+import { ProductoPage } from './producto/producto.page';
+import { CarritoService } from 'src/app/cart/carrito.service';
 
 @Component({
   selector: 'app-restaurante',
@@ -19,7 +22,7 @@ import { RestauranteService } from './restaurante.service';
   styleUrls: ['./restaurante.page.scss'],
 })
 export class RestaurantePage implements OnInit {
-  restaurante: Restaurante;
+  @Input() restaurante: Restaurante;
   loading = false;
   constructor(
     private modalController: ModalController,
@@ -27,7 +30,8 @@ export class RestaurantePage implements OnInit {
     private userService: UserService,
     private toastController: ToastController,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private carritoService: CarritoService
   ) {}
 
   ngOnInit() {
@@ -149,5 +153,17 @@ export class RestaurantePage implements OnInit {
         await toast.present();
       },
     });
+  }
+
+  async onClickProducto(producto: Producto) {
+    const modal = await this.modalController.create({
+      component: ProductoPage,
+      componentProps: { producto, restaurante: this.restaurante },
+    });
+    await modal.present();
+  }
+
+  onClickCart(producto: Producto) {
+    this.carritoService.onAddProduct(producto);
   }
 }
