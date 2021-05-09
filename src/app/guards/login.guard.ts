@@ -6,6 +6,7 @@ import {
   UrlTree,
   Router,
 } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { UserService } from '../login/user.service';
 
@@ -13,7 +14,12 @@ import { UserService } from '../login/user.service';
   providedIn: 'root',
 })
 export class LoginGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,9 +31,29 @@ export class LoginGuard implements CanActivate {
     const isLogedIn = this.userService.isLogedIn;
 
     if (!isLogedIn) {
-      this.router.navigate(['/login']);
+      this.confirmRedirect();
     }
 
     return isLogedIn;
+  }
+
+  private async confirmRedirect() {
+    const message =
+      'Ingresa con tu usuario y contraseña o registrate 📝 para acceder';
+    const toast = await this.toastController.create({
+      message,
+      duration: 5000,
+      buttons: [
+        'No',
+        {
+          text: 'Si',
+          handler: () => {
+            this.router.navigate(['/login']);
+          },
+        },
+      ],
+    });
+
+    await toast.present();
   }
 }
