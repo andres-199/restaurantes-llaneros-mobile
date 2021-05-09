@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { ModalBackButtonModule } from '../../components/modal-back-button/modal-back-button.module';
 import { RestaurantePage } from './restaurante.page';
-import { ModalBackButtonModule } from '../components/modal-back-button/modal-back-button.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, ModalBackButtonModule],

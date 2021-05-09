@@ -16,7 +16,7 @@
       <ion-label color="medium">
         {{ restaurante.Mesas?.length }} Mesas disponibles
       </ion-label>
-      <ion-button slot="end">
+      <ion-button slot="end" (click)="onClickReservar()">
         <ion-icon name="time"></ion-icon>
         Reservar
       </ion-button>

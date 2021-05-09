@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {
+  AlertController,
+  ModalController,
+  ToastController,
+} from '@ionic/angular';
 import { map } from 'rxjs/operators';
+import { Categoria } from 'src/app/interfaces/categoria.interface';
+import { UserService } from 'src/app/login/user.service';
 import { setPath } from 'src/util/image-path';
-import { Restaurante } from '../home/restaurante/restaurante.interface';
-import { Categoria } from '../interfaces/categoria.interface';
+import { Restaurante } from './restaurante.interface';
 import { RestauranteService } from './restaurante.service';
 
 @Component({
@@ -16,7 +21,10 @@ export class RestaurantePage implements OnInit {
   loading = false;
   constructor(
     private modalController: ModalController,
-    private restauranteService: RestauranteService
+    private restauranteService: RestauranteService,
+    private userService: UserService,
+    private toastController: ToastController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -59,5 +67,53 @@ export class RestaurantePage implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  async onClickReservar() {
+    const isLogedIn = this.userService.isLogedIn;
+    if (!isLogedIn) {
+      const message = 'Ingresa con tu cuenta o registrate para Reservar 🕐';
+      const toast = await this.toastController.create({
+        message,
+        duration: 5000,
+        buttons: ['Aceptar'],
+      });
+      await toast.present();
+      return false;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Reserva en ' + this.restaurante.nombre,
+      inputs: [
+        {
+          type: 'datetime-local',
+          name: 'fecha',
+          attributes: {
+            required: true,
+          },
+        },
+
+        {
+          name: 'numero_mesas',
+          type: 'number',
+          placeholder: 'Número de Mesas',
+          attributes: { required: true },
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Reservar',
+          handler: (data) => {
+            console.log('Confirm Ok', data);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

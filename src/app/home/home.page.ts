@@ -3,8 +3,8 @@ import { HomeService } from './home.service';
 import { Restaurante } from './restaurante/restaurante.interface';
 import { map } from 'rxjs/operators';
 import { setPath } from '../../util/image-path';
-import { RestaurantePage } from '../restaurante/restaurante.page';
 import { ModalController } from '@ionic/angular';
+import { RestaurantePage } from './restaurante/restaurante.page';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
