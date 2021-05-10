@@ -2,19 +2,19 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab2Page } from './tab2.page';
 
-import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { ToolbarModule } from '../components/toolbar/toolbar.module';
+import { CartPageRoutingModule } from './cart-routing.module';
+import { CartPage } from './cart.page';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    Tab2PageRoutingModule,
+    CartPageRoutingModule,
     ToolbarModule,
   ],
-  declarations: [Tab2Page],
+  declarations: [CartPage],
 })
-export class Tab2PageModule {}
+export class CartPageModule {}

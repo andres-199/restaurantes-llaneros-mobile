@@ -7,4 +7,5 @@ export interface Carrito {
   cantidad?: number;
   fecha?: Date;
   Producto?: Producto;
+  selected?: boolean;
 }

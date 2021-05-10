@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: 'cart',
         loadChildren: () =>
-          import('../cart/tab2.module').then((m) => m.Tab2PageModule),
+          import('../cart/cart.module').then((m) => m.CartPageModule),
         canActivate: [LoginGuard],
       },
       {

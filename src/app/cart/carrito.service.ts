@@ -5,6 +5,8 @@ import {
   LoadingController,
   ToastController,
 } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../home/restaurante/producto/producto.interfcae';
 import { UserService } from '../login/user.service';
@@ -14,13 +16,16 @@ import { Carrito } from './carrito.interface';
   providedIn: 'root',
 })
 export class CarritoService {
+  totalOrdenes = new BehaviorSubject(0);
   constructor(
     private http: HttpClient,
     private userService: UserService,
     private toastController: ToastController,
     private alertController: AlertController,
     private loadingController: LoadingController
-  ) {}
+  ) {
+    this.updateTotalOrdenes();
+  }
 
   onAddProduct(producto: Producto) {
     const isLogedIn = this.userService.isLogedIn;
@@ -96,12 +101,36 @@ export class CarritoService {
     });
   }
 
-  private async showMsg(message: string) {
+  async showMsg(message: string) {
     const toast = await this.toastController.create({
       message,
       duration: 5000,
       buttons: ['Aceptar'],
     });
     await toast.present();
+  }
+
+  getOrdenes() {
+    const terceroId = this.userService.user?.tercero_id;
+    const url = environment.BACKEND_URL + `terceros/${terceroId}/ordenes`;
+    return this.http
+      .get<Carrito[]>(url)
+      .pipe(tap((ordenes) => this.totalOrdenes.next(ordenes.length)));
+  }
+
+  updateTotalOrdenes() {
+    const user = this.userService.user;
+    if (user) {
+      this.getOrdenes().subscribe((ordenes) => {
+        this.totalOrdenes.next(ordenes.length);
+      });
+    } else {
+      this.totalOrdenes.next(0);
+    }
+  }
+
+  deleteOrden(orden: Carrito) {
+    const url = environment.BACKEND_URL + `carrito/${orden.id}`;
+    return this.http.delete(url);
   }
 }
