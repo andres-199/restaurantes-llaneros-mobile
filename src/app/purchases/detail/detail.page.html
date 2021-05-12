@@ -1,9 +1,78 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>detail</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-modal-back-button></app-modal-back-button>
+    </ion-buttons>
+    <ion-title>{{compra.Restaurant.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item lines="none">
+    <ion-label>
+      <p>Orden de venta No. {{compra.id}}</p>
+    </ion-label>
+    <ion-chip [color]="compra['estado'].color">
+      <ion-label>{{compra['estado'].text}}</ion-label>
+    </ion-chip>
+  </ion-item>
 
+  <ion-card>
+    <ion-list>
+      <ion-list-header>
+        <ion-label color="primary"> Resumen del pedido </ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let orden of compra.DetalleVenta">
+        <ion-thumbnail slot="start">
+          <img [src]="orden.Producto?.Imagenes[0]?.path" />
+        </ion-thumbnail>
+        <ion-label class="ion-text-wrap">
+          <h2>{{orden.Producto?.nombre}}</h2>
+          <p>{{orden.cantidad}}{{' unidad'+(orden.cantidad>1?'es':'')}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          <h6>
+            {{orden.Producto.precio * orden.cantidad| currency:
+            'COP':'symbol':'1.0'}}
+          </h6>
+        </ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-note slot="end">
+          <h6>Total: {{compra.valor| currency: 'COP':'symbol':'1.0'}}</h6>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label color="primary"> Dirección de entrega </ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label class="ion-text-wrap">
+          <p>
+            <ion-icon name="home"></ion-icon>
+            {{compra.direccion_entrega.nombre}}
+            {{compra.direccion_entrega.direccion}}
+          </p>
+          <p>
+            <ion-icon name="call"></ion-icon>
+            {{compra.direccion_entrega.telefono}}
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label color="primary"> Metodo de pago</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="compra.metodo_pago?.imagen" />
+        </ion-thumbnail>
+        <ion-label> {{compra.metodo_pago?.nombre}} </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 </ion-content>

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Venta } from '../cart/interfaces/venta.interface';
+import { DetailPage } from './detail/detail.page';
 import { PurchasesService } from './purchases.service';
 
 @Component({
@@ -8,11 +10,14 @@ import { PurchasesService } from './purchases.service';
   templateUrl: './purchases.page.html',
   styleUrls: ['./purchases.page.scss'],
 })
-export class PurchasesPage implements OnInit {
+export class PurchasesPage {
   compras: Venta[];
-  constructor(private purchasesService: PurchasesService) {}
+  constructor(
+    private purchasesService: PurchasesService,
+    private modalController: ModalController
+  ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.getCompras();
   }
 
@@ -55,5 +60,12 @@ export class PurchasesPage implements OnInit {
     }
   }
 
-  private showOrden(compra: Venta) {}
+  private async showOrden(compra: Venta) {
+    const modal = await this.modalController.create({
+      component: DetailPage,
+      componentProps: { compra },
+    });
+
+    await modal.present();
+  }
 }

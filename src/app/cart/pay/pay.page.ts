@@ -56,14 +56,21 @@ export class PayPage implements OnInit {
     return environment.STORAGE_URL + this.paymentSupport?.path;
   }
 
-  onClickAceptar() {
+  async onClickAceptar() {
     const oldPaymentSupport = this.orden?.soporte_pago;
 
     if (this.paymentSupport) {
       if (this.paymentSupport !== oldPaymentSupport) {
         this.orden.soporte_pago = this.paymentSupport;
+
+        const loading = await this.loadingController.create({
+          message: 'Cargando el soporte...',
+        });
+        await loading.present();
+
         this.carritoService.updateOrdenVenta(this.orden).subscribe({
           next: async (venta) => {
+            await loading.dismiss();
             await this.modalController.dismiss(this.orden);
           },
         });

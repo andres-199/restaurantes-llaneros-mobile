@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { DetailPage } from './detail.page';
+import { ModalBackButtonModule } from 'src/app/components/modal-back-button/modal-back-button.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, ModalBackButtonModule],
   declarations: [DetailPage],
 })
 export class DetailPageModule {}
