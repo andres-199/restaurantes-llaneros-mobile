@@ -48,6 +48,12 @@
     </ion-list>
 
     <ion-card-content>
+      <ion-chip
+        *ngIf="orden['estado'] && orden.soporte_pago"
+        [color]="orden['estado'].color"
+      >
+        <ion-label>{{orden['estado'].text}}</ion-label>
+      </ion-chip>
       <div>
         <img
           *ngIf="paymentSupport"

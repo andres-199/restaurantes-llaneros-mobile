@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   AlertController,
   LoadingController,
+  ModalController,
   ToastController,
 } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
@@ -26,7 +27,8 @@ export class CarritoService {
     private userService: UserService,
     private toastController: ToastController,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private modalController: ModalController
   ) {
     this.updateTotalOrdenes();
   }

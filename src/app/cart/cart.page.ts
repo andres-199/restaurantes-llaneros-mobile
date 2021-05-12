@@ -8,6 +8,7 @@ import { Carrito } from './interfaces/carrito.interface';
 import { CarritoService } from './carrito.service';
 import { PayPage } from './pay/pay.page';
 import { PurchasePage } from './purchase/purchase.page';
+import { PurchasesService } from '../purchases/purchases.service';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +19,8 @@ export class CartPage {
   restaurantes: Restaurante[];
   constructor(
     private carritoService: CarritoService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private purchaseService: PurchasesService
   ) {}
 
   ionViewWillEnter() {
@@ -117,41 +119,17 @@ export class CartPage {
 
     await modal.present();
 
-    modal.onDidDismiss().then((response) => {
+    modal.onDidDismiss().then(async (response) => {
       if (response.data) {
         const orden: Orden = response.data;
         if (orden.metodo_pago.contra_entrega) {
           this.getRestaurantes();
-          this.orderSuccess();
+          this.purchaseService.orderSuccess();
         } else {
-          this.pay(orden, restaurante);
+          this.getRestaurantes();
+          await this.purchaseService.pay(orden, restaurante);
         }
       }
     });
-  }
-
-  private async pay(orden: Orden, restaurante: Restaurante) {
-    const modal = await this.modalController.create({
-      component: PayPage,
-      componentProps: {
-        orden,
-        restaurante,
-      },
-    });
-
-    await modal.present();
-
-    modal.onDidDismiss().then((response) => {
-      this.getRestaurantes();
-      if (response.data) {
-        this.orderSuccess();
-      }
-    });
-  }
-
-  private orderSuccess() {
-    const msg =
-      'Orden registrada ✔, en un momento el Restaurante revisará tu orden.';
-    this.carritoService.showMsg(msg);
   }
 }

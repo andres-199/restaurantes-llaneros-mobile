@@ -8,6 +8,7 @@ import { PurchasesPageRoutingModule } from './purchases-routing.module';
 
 import { PurchasesPage } from './purchases.page';
 import { ToolbarModule } from '../components/toolbar/toolbar.module';
+import { DetailPageModule } from './detail/detail.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ToolbarModule } from '../components/toolbar/toolbar.module';
     IonicModule,
     PurchasesPageRoutingModule,
     ToolbarModule,
+    DetailPageModule,
   ],
   declarations: [PurchasesPage],
 })

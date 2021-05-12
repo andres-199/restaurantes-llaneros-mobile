@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Restaurante } from 'src/app/home/restaurante/restaurante.interface';
 import { Imagen } from 'src/app/interfaces/imagen.interface';
@@ -11,7 +11,7 @@ import { Venta } from '../interfaces/venta.interface';
   templateUrl: './pay.page.html',
   styleUrls: ['./pay.page.scss'],
 })
-export class PayPage {
+export class PayPage implements OnInit {
   @Input() restaurante: Restaurante;
   @Input() orden: Venta;
 
@@ -22,6 +22,10 @@ export class PayPage {
     private loadingController: LoadingController,
     private modalController: ModalController
   ) {}
+
+  ngOnInit() {
+    this.paymentSupport = this.orden.soporte_pago;
+  }
 
   async onLoadImage(files: File[]) {
     if (!files?.length) return false;
