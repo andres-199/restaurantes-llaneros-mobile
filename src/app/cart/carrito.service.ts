@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../home/restaurante/producto/producto.interfcae';
+import { Imagen } from '../interfaces/imagen.interface';
 import { MetodoPago } from '../interfaces/metodo-pago.interface';
 import { Orden } from '../interfaces/orden.interface';
 import { UserService } from '../login/user.service';
@@ -44,8 +45,6 @@ export class CarritoService {
 
   private async showAlert(producto: Producto) {
     const price = Number(producto.precio).toLocaleString('es-CO');
-    console.log(price);
-
     const alert = await this.alertController.create({
       header: 'Agregar al carrito',
       subHeader: producto.nombre,
@@ -151,5 +150,12 @@ export class CarritoService {
   updateOrdenVenta(venta: Venta) {
     const url = environment.BACKEND_URL + 'ventas';
     return this.http.put<Venta>(url, venta);
+  }
+
+  uploadImg(file: File) {
+    const url = environment.STORAGE_URL + 'upload-img';
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<Imagen[]>(url, formData);
   }
 }

@@ -1,4 +1,4 @@
-import { Carrito } from 'src/app/cart/carrito.interface';
+import { Carrito } from 'src/app/cart/interfaces/carrito.interface';
 import { Categoria } from 'src/app/interfaces/categoria.interface';
 import { Imagen } from 'src/app/interfaces/imagen.interface';
 import { MetodoPago } from 'src/app/interfaces/metodo-pago.interface';

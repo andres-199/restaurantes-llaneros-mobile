@@ -31,7 +31,6 @@ export class CartPage {
       .pipe(map(this.setOrdenesTorestaurasntes))
       .subscribe({
         next: (restaurantes) => {
-          console.log(restaurantes);
           this.restaurantes = restaurantes;
         },
       });
@@ -91,7 +90,6 @@ export class CartPage {
           restaurante.Ordenes.splice(i, 1);
           const message = `Se eliminó ${orden.Producto?.nombre} del carrito ✔`;
           await this.carritoService.showMsg(message);
-          console.log(i);
           i--;
         }
       }
@@ -123,8 +121,8 @@ export class CartPage {
       if (response.data) {
         const orden: Orden = response.data;
         if (orden.metodo_pago.contra_entrega) {
-          this.orderSuccess();
           this.getRestaurantes();
+          this.orderSuccess();
         } else {
           this.pay(orden, restaurante);
         }
@@ -144,14 +142,9 @@ export class CartPage {
     await modal.present();
 
     modal.onDidDismiss().then((response) => {
+      this.getRestaurantes();
       if (response.data) {
-        const orden: Orden = response.data;
-        if (orden.metodo_pago.contra_entrega) {
-          this.orderSuccess();
-          this.getRestaurantes();
-        } else {
-          this.pay(orden, restaurante);
-        }
+        this.orderSuccess();
       }
     });
   }

@@ -133,13 +133,11 @@ export class PurchasePage implements OnInit {
       metodo_pago: this.metodoPagoSelected,
     };
 
-    this.modalController.dismiss(orden);
-
-    /*  this.carritoService.createOrden(orden).subscribe({
+    this.carritoService.createOrden(orden).subscribe({
       next: async (_orden) => {
         await this.loadingController.dismiss();
-        this.modalController.dismiss(_orden);
+        await this.modalController.dismiss(_orden);
       },
-    }); */
+    });
   }
 }
