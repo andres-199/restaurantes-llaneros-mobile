@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Venta } from '../cart/interfaces/venta.interface';
 import { DetailPage } from './detail/detail.page';
@@ -14,7 +18,9 @@ export class PurchasesPage {
   compras: Venta[];
   constructor(
     private purchasesService: PurchasesService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) {}
 
   ionViewWillEnter() {
@@ -67,5 +73,36 @@ export class PurchasesPage {
     });
 
     await modal.present();
+  }
+
+  async onClickDelete(compra: Venta) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+
+      message: 'La información se borará para siempre.',
+      buttons: [
+        'Cancelar',
+        {
+          text: 'Aceptar',
+          handler: async () => await this.deleteCompra(compra),
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private async deleteCompra(compra: Venta) {
+    const loading = await this.loadingController.create({
+      message: 'Eliminando...',
+    });
+    await loading.present();
+    this.purchasesService.deleteCompra(compra).subscribe({
+      next: async () => {
+        this.getCompras();
+        await loading.dismiss();
+        const msg = 'Compra Eliminada ✔';
+        this.purchasesService.showMsg(msg);
+      },
+    });
   }
 }

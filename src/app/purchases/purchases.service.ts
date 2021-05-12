@@ -25,6 +25,14 @@ export class PurchasesService {
     return this.http.get<Venta[]>(url);
   }
 
+  deleteCompra(compra: Venta) {
+    const user = this.userService.user;
+    const url =
+      environment.BACKEND_URL +
+      `terceros/${user.tercero_id}/compras/${compra.id}`;
+    return this.http.delete(url);
+  }
+
   async pay(orden: Orden, restaurante: Restaurante) {
     const modal = await this.modalController.create({
       component: PayPage,
