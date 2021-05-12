@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="compras?.length;else noData">
     <ion-item-sliding *ngFor="let compra of compras">
       <ion-item detail (click)="onClickCompra(compra)">
         <ion-label class="ion-text-wrap">
@@ -32,3 +32,14 @@
     </ion-item-sliding>
   </ion-list>
 </ion-content>
+
+<ng-template #noData>
+  <div class="no-data">
+    <ion-text color="primary">
+      <h4 style="padding: 1em 0 0 1em">
+        No tienes Compras registradas, empieza a comprar en tus restaurantes
+        favoritos...
+      </h4>
+    </ion-text>
+  </div>
+</ng-template>
