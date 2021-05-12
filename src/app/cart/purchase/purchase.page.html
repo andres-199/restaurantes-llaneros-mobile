@@ -1,9 +1,105 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>purchase</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <app-modal-back-button></app-modal-back-button>
+    </ion-buttons>
+    <ion-title>Resumen del pedido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="primary">{{restaurante.nombre}}</ion-card-title>
+      <ion-card-subtitle>{{restaurante.direccion}}</ion-card-subtitle>
+    </ion-card-header>
 
+    <ion-list>
+      <ion-item *ngFor="let orden of ordenes">
+        <ion-thumbnail slot="start">
+          <img [src]="orden.Producto?.Imagenes[0]?.path" />
+        </ion-thumbnail>
+        <ion-label class="ion-text-wrap">
+          <h2>{{orden.Producto?.nombre}}</h2>
+          <p>{{orden.cantidad}}{{' unidad'+(orden.cantidad>1?'es':'')}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          <h6>
+            {{orden.Producto.precio * orden.cantidad| currency:
+            'COP':'symbol':'1.0'}}
+          </h6>
+        </ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-note slot="end">
+          <h6>
+            Total: {{restaurante.valorTotalOrdenes| currency:
+            'COP':'symbol':'1.0'}}
+          </h6>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="primary">
+        <h6>Seleccione la dirección de entrega</h6>
+      </ion-card-title>
+      <ion-list lines="none">
+        <ion-radio-group
+          required
+          [(ngModel)]="direccionSelected"
+          *ngIf="tercero?.Direcciones?.length;else noDirections"
+        >
+          <ion-item *ngFor="let direccion of tercero?.Direcciones">
+            <ion-label class="ion-text-wrap">
+              {{ direccion.nombre }} - {{ direccion.direccion }}
+            </ion-label>
+            <ion-radio slot="end" [value]="direccion"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="primary">
+        <h6>Seleccione el medio de pago</h6>
+      </ion-card-title>
+      <ion-list lines="none">
+        <ion-radio-group required [(ngModel)]="metodoPagoSelected">
+          <ion-item *ngFor="let metodoPago of metodosPago">
+            <ion-thumbnail>
+              <img [src]="metodoPago.imagen" />
+            </ion-thumbnail>
+            <ion-label class="ion-text-wrap">
+              <h3>{{metodoPago.nombre}}</h3>
+              <p>{{ metodoPago.RestauranteMetodoPago?.detalle }}</p>
+            </ion-label>
+            <ion-radio slot="end" [value]="metodoPago"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card-header>
+  </ion-card>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="full" (click)="onClickOrdenar()">
+      Ordenar
+      <ion-icon name="checkmark" slot="end"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+<ng-template #noDirections>
+  <ion-item>
+    <ion-button fill="outline" (click)="onClickAddDireccion()">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Agrega una dirección
+    </ion-button>
+  </ion-item>
+</ng-template>

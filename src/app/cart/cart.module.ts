@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { ToolbarModule } from '../components/toolbar/toolbar.module';
 import { CartPageRoutingModule } from './cart-routing.module';
 import { CartPage } from './cart.page';
+import { PurchasePageModule } from './purchase/purchase.module';
+import { PayPageModule } from './pay/pay.module';
 
 @NgModule({
   imports: [
@@ -14,6 +16,8 @@ import { CartPage } from './cart.page';
     FormsModule,
     CartPageRoutingModule,
     ToolbarModule,
+    PurchasePageModule,
+    PayPageModule,
   ],
   declarations: [CartPage],
 })

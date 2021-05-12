@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { setPath } from 'src/util/image-path';
 import { Restaurante } from '../home/restaurante/restaurante.interface';
-import { Carrito } from './carrito.interface';
+import { Orden } from '../interfaces/orden.interface';
+import { Carrito } from './interfaces/carrito.interface';
 import { CarritoService } from './carrito.service';
+import { PayPage } from './pay/pay.page';
+import { PurchasePage } from './purchase/purchase.page';
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +16,10 @@ import { CarritoService } from './carrito.service';
 })
 export class CartPage {
   restaurantes: Restaurante[];
-  constructor(private carritoService: CarritoService) {}
+  constructor(
+    private carritoService: CarritoService,
+    private modalController: ModalController
+  ) {}
 
   ionViewWillEnter() {
     this.getRestaurantes();
@@ -94,5 +101,64 @@ export class CartPage {
         index--;
       }
     }
+  }
+
+  async onClickOrdenar(restaurante: Restaurante) {
+    if (!(restaurante.valorTotalOrdenes > 0)) {
+      const msg = 'Selecciona almenos un producto 🍗🥓🥩🍖';
+      this.carritoService.showMsg(msg);
+      return false;
+    }
+
+    const modal = await this.modalController.create({
+      component: PurchasePage,
+      componentProps: {
+        restaurante,
+      },
+    });
+
+    await modal.present();
+
+    modal.onDidDismiss().then((response) => {
+      if (response.data) {
+        const orden: Orden = response.data;
+        if (orden.metodo_pago.contra_entrega) {
+          this.orderSuccess();
+          this.getRestaurantes();
+        } else {
+          this.pay(orden, restaurante);
+        }
+      }
+    });
+  }
+
+  private async pay(orden: Orden, restaurante: Restaurante) {
+    const modal = await this.modalController.create({
+      component: PayPage,
+      componentProps: {
+        orden,
+        restaurante,
+      },
+    });
+
+    await modal.present();
+
+    modal.onDidDismiss().then((response) => {
+      if (response.data) {
+        const orden: Orden = response.data;
+        if (orden.metodo_pago.contra_entrega) {
+          this.orderSuccess();
+          this.getRestaurantes();
+        } else {
+          this.pay(orden, restaurante);
+        }
+      }
+    });
+  }
+
+  private orderSuccess() {
+    const msg =
+      'Orden registrada ✔, en un momento el Restaurante revisará tu orden.';
+    this.carritoService.showMsg(msg);
   }
 }

@@ -2,8 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Restaurante } from '../home/restaurante/restaurante.interface';
+import { Direccion } from '../interfaces/direccion.interface';
 import { Tercero } from '../interfaces/tercero.interface';
 import { Usuario } from '../interfaces/usuario.interface';
+
+export interface Perfil {
+  Tercero: Tercero;
+  Restaurante: Restaurante;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +45,15 @@ export class UserService {
   public register(tercero: Tercero) {
     const url = environment.BACKEND_URL + 'terceros';
     return this.http.post(url, tercero);
+  }
+
+  public getPerfil(terceroId: number) {
+    const url = environment.BACKEND_URL + `terceros/${terceroId}/perfil`;
+    return this.http.get<Perfil>(url);
+  }
+
+  createDireccion(direccion: Direccion) {
+    const url = environment.BACKEND_URL + 'direcciones';
+    return this.http.post<Direccion>(url, direccion);
   }
 }

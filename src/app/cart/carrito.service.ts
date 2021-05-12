@@ -9,8 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../home/restaurante/producto/producto.interfcae';
+import { MetodoPago } from '../interfaces/metodo-pago.interface';
+import { Orden } from '../interfaces/orden.interface';
 import { UserService } from '../login/user.service';
-import { Carrito } from './carrito.interface';
+import { Carrito } from './interfaces/carrito.interface';
+import { Venta } from './interfaces/venta.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -132,5 +135,21 @@ export class CarritoService {
   deleteOrden(orden: Carrito) {
     const url = environment.BACKEND_URL + `carrito/${orden.id}`;
     return this.http.delete(url);
+  }
+
+  getPaymentMethods(restauranteId: number) {
+    const url =
+      environment.BACKEND_URL + `restaurantes/${restauranteId}/metodos-pago`;
+    return this.http.get<MetodoPago[]>(url);
+  }
+
+  createOrden(orden: Orden) {
+    const url = environment.BACKEND_URL + 'carrito/ordenar';
+    return this.http.post<Orden>(url, orden);
+  }
+
+  updateOrdenVenta(venta: Venta) {
+    const url = environment.BACKEND_URL + 'ventas';
+    return this.http.put<Venta>(url, venta);
   }
 }
