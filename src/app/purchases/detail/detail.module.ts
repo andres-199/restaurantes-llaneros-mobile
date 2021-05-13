@@ -6,9 +6,16 @@ import { IonicModule } from '@ionic/angular';
 
 import { DetailPage } from './detail.page';
 import { ModalBackButtonModule } from 'src/app/components/modal-back-button/modal-back-button.module';
+import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ModalBackButtonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ModalBackButtonModule,
+    NgImageFullscreenViewModule,
+  ],
   declarations: [DetailPage],
 })
 export class DetailPageModule {}

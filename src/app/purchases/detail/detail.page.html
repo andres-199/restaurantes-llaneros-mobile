@@ -74,5 +74,20 @@
         <ion-label> {{compra.metodo_pago?.nombre}} </ion-label>
       </ion-item>
     </ion-list>
+    <ion-card-content>
+      <img
+        *ngIf="paymentSupport"
+        [src]="paymentSupportThumbnail"
+        [alt]="paymentSupport.nombre"
+        (click)="showPaymentSupportFull = true"
+      />
+    </ion-card-content>
   </ion-card>
 </ion-content>
+
+<ng-image-fullscreen-view
+  [images]="[{ image: paymentSupportFull }]"
+  [imageIndex]="0"
+  [show]="showPaymentSupportFull"
+  (close)="showPaymentSupportFull = false"
+></ng-image-fullscreen-view>

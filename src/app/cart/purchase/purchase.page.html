@@ -50,7 +50,7 @@
         <ion-radio-group
           required
           [(ngModel)]="direccionSelected"
-          *ngIf="tercero?.Direcciones?.length;else noDirections"
+          *ngIf="tercero?.Direcciones?.length"
         >
           <ion-item *ngFor="let direccion of tercero?.Direcciones">
             <ion-label class="ion-text-wrap">
@@ -59,6 +59,12 @@
             <ion-radio slot="end" [value]="direccion"></ion-radio>
           </ion-item>
         </ion-radio-group>
+        <ion-item>
+          <ion-button fill="outline" (click)="onClickAddDireccion()">
+            <ion-icon name="add" slot="start"></ion-icon>
+            Agrega una dirección
+          </ion-button>
+        </ion-item>
       </ion-list>
     </ion-card-header>
   </ion-card>
@@ -94,12 +100,3 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
-
-<ng-template #noDirections>
-  <ion-item>
-    <ion-button fill="outline" (click)="onClickAddDireccion()">
-      <ion-icon name="add" slot="start"></ion-icon>
-      Agrega una dirección
-    </ion-button>
-  </ion-item>
-</ng-template>
