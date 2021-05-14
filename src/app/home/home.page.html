@@ -8,10 +8,10 @@
     style="margin-bottom: 1em"
     (click)="onClickRestaurante(restaurante)"
   >
-    <img [src]="restaurante.imagen.path" />
+    <img [src]="restaurante.imagen?.path" />
     <ion-card-header>
-      <ion-card-title>{{restaurante.nombre}}</ion-card-title>
+      <ion-card-title>{{restaurante?.nombre}}</ion-card-title>
     </ion-card-header>
-    <ion-card-content> {{restaurante.descripcion}} </ion-card-content>
+    <ion-card-content> {{restaurante?.descripcion}} </ion-card-content>
   </ion-card>
 </ion-content>

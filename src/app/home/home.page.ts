@@ -27,6 +27,8 @@ export class HomePage {
       .pipe(
         map((restaurantes) =>
           restaurantes.map((restaurante) => {
+            console.log(restaurante);
+
             setPath(restaurante.imagen, 'pequeno');
             return restaurante;
           })
